@@ -1,0 +1,32 @@
+export const products = [
+  {
+    slug: "steel-wall-shelf",
+    name: "Steel Wall Shelf",
+    category: "Shelving",
+    material: "Cold-rolled steel, 2mm",
+    dimensions: "60cm x 20cm x 15cm",
+    finish: "Powder-coated black",
+    image: "/products/placeholder1.jpg",
+    description: "A minimalist floating shelf, laser-cut and bent from a single sheet of steel. Wall-mounted, no visible brackets.",
+  },
+  {
+    slug: "metal-coat-rack",
+    name: "Metal Coat Rack",
+    category: "Home Accessories",
+    material: "Stainless steel, 3mm",
+    dimensions: "40cm x 40cm x 180cm",
+    finish: "Brushed steel",
+    image: "/products/placeholder2.jpg",
+    description: "Freestanding coat rack with a bent tripod base for stability, laser-cut hook details.",
+  },
+  {
+    slug: "custom-bracket-set",
+    name: "Custom Bracket Set",
+    category: "Industrial",
+    material: "Mild steel, 4mm",
+    dimensions: "Custom sizing available",
+    finish: "Raw / Galvanized / Powder-coated",
+    image: "/products/placeholder3.jpg",
+    description: "Heavy-duty brackets cut and bent to spec for shelving, furniture, or structural support.",
+  },
+];
