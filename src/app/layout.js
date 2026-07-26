@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Header from "./Header";
 import "./globals.css";
 
 export const metadata = {
@@ -13,113 +14,32 @@ export default function RootLayout({ children }) {
     <html lang="fr">
       <body className="min-h-screen bg-[#F4F4F2] text-[#1B1D1E] flex flex-col">
 
-        {/* ================= NAVBAR ================= */}
+        {/* HEADER */}
+        <Header />
 
-        <nav className="sticky top-0 z-50 border-b border-[#DCDDDA] bg-white/90 backdrop-blur-md">
-          <div className="max-w-7xl mx-auto px-8 py-4 flex items-center justify-between">
-
-            {/* Logo */}
-
-            <Link href="/" className="flex items-center gap-3">
-
-              <Image
-                src="/logoH.png"
-                alt="SOMEV"
-                width={55}
-                height={55}
-                priority
-              />
-
-              <div>
-
-                <h1 className="font-display text-xl font-bold leading-none">
-                  SOMEV
-                </h1>
-
-                <span className="block text-[10px] tracking-[3px] text-[#6E7276]">
-                  MÉTAL ÉVOLUTION
-                </span>
-
-              </div>
-
-            </Link>
-
-            {/* Navigation */}
-
-            <div className="hidden lg:flex items-center gap-8 text-[15px] font-medium">
-
-              <Link href="/" className="hover:text-[#1EA7FF] transition">
-                Accueil
-              </Link>
-
-              <Link href="/services" className="hover:text-[#1EA7FF] transition">
-                Services
-              </Link>
-
-              <Link href="/products" className="hover:text-[#1EA7FF] transition">
-                Produits
-              </Link>
-
-              <Link href="/portfolio" className="hover:text-[#1EA7FF] transition">
-                Réalisations
-              </Link>
-
-              <Link
-                href="/custom"
-                className="text-[#1EA7FF] font-semibold hover:opacity-80 transition"
-              >
-                Sur mesure
-              </Link>
-
-              <Link href="/about" className="hover:text-[#1EA7FF] transition">
-                À propos
-              </Link>
-
-              <Link href="/contact" className="hover:text-[#1EA7FF] transition">
-                Contact
-              </Link>
-
-            </div>
-
-            {/* CTA */}
-
-            <Link
-              href="/custom"
-              className="hidden lg:inline-flex items-center rounded-lg bg-[#1EA7FF] px-5 py-3 text-white font-semibold hover:bg-[#0E90EB] transition"
-            >
-              Demander un devis
-            </Link>
-
-          </div>
-        </nav>
-
-        {/* ================= MAIN ================= */}
-
+        {/* MAIN */}
         <main className="flex-1">
           {children}
         </main>
 
-        {/* ================= FOOTER ================= */}
-
+        {/* FOOTER */}
         <footer className="border-t border-[#DCDDDA] bg-white mt-20">
 
           <div className="max-w-7xl mx-auto px-8 py-10 grid md:grid-cols-4 gap-10">
 
-            {/* Logo */}
-
+            {/* LOGO */}
             <div>
 
               <div className="flex items-center gap-3 mb-4">
 
                 <Image
                   src="/logoH.png"
-                  alt="SOMEV"
+                  alt="SOMEV - Métal Évolution"
                   width={45}
                   height={45}
                 />
 
                 <div>
-
                   <h3 className="font-display font-bold">
                     SOMEV
                   </h3>
@@ -127,7 +47,6 @@ export default function RootLayout({ children }) {
                   <p className="text-xs text-[#6E7276]">
                     MÉTAL ÉVOLUTION
                   </p>
-
                 </div>
 
               </div>
@@ -139,8 +58,7 @@ export default function RootLayout({ children }) {
 
             </div>
 
-            {/* Navigation */}
-
+            {/* NAVIGATION */}
             <div>
 
               <h4 className="font-semibold mb-4">
@@ -149,17 +67,32 @@ export default function RootLayout({ children }) {
 
               <div className="flex flex-col gap-2 text-[#6E7276]">
 
-                <Link href="/">Accueil</Link>
-                <Link href="/services">Services</Link>
-                <Link href="/products">Produits</Link>
-                <Link href="/portfolio">Réalisations</Link>
+                <Link
+                  href="/"
+                  className="hover:text-[#1EA7FF] transition"
+                >
+                  Accueil
+                </Link>
+
+                <Link
+                  href="/services"
+                  className="hover:text-[#1EA7FF] transition"
+                >
+                  Services
+                </Link>
+
+                <Link
+                  href="/products"
+                  className="hover:text-[#1EA7FF] transition"
+                >
+                  Produits
+                </Link>
 
               </div>
 
             </div>
 
-            {/* Société */}
-
+            {/* SOCIÉTÉ */}
             <div>
 
               <h4 className="font-semibold mb-4">
@@ -168,16 +101,32 @@ export default function RootLayout({ children }) {
 
               <div className="flex flex-col gap-2 text-[#6E7276]">
 
-                <Link href="/custom">Fabrication sur mesure</Link>
-                <Link href="/about">À propos</Link>
-                <Link href="/contact">Contact</Link>
+                <Link
+                  href="/custom"
+                  className="hover:text-[#1EA7FF] transition"
+                >
+                  Fabrication sur mesure
+                </Link>
+
+                <Link
+                  href="/about"
+                  className="hover:text-[#1EA7FF] transition"
+                >
+                  À propos
+                </Link>
+
+                <Link
+                  href="/contact"
+                  className="hover:text-[#1EA7FF] transition"
+                >
+                  Contact
+                </Link>
 
               </div>
 
             </div>
 
-            {/* Contact */}
-
+            {/* RÉSEAUX */}
             <div>
 
               <h4 className="font-semibold mb-4">
@@ -197,10 +146,10 @@ export default function RootLayout({ children }) {
 
           </div>
 
+          {/* COPYRIGHT */}
           <div className="border-t border-[#DCDDDA] py-6 text-center text-sm text-[#6E7276]">
-
-            © {new Date().getFullYear()} SOMEV — Métal Évolution. Tous droits réservés.
-
+            © {new Date().getFullYear()} SOMEV — Métal Évolution.
+            Tous droits réservés.
           </div>
 
         </footer>

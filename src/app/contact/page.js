@@ -23,7 +23,6 @@ export default function ContactPage() {
 
         {/* Informations */}
         <div>
-
           <h2 className="font-display text-2xl mb-8">
             Nos coordonnées
           </h2>
@@ -36,7 +35,8 @@ export default function ContactPage() {
               </h3>
 
               <p className="text-gray-600">
-                Zone Industrielle<br />
+                Zone Industrielle
+                <br />
                 Tunisie
               </p>
             </div>
@@ -76,20 +76,20 @@ export default function ContactPage() {
             <Link
               href="https://www.facebook.com/profile.php?id=61589247662424"
               target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center bg-[#1877F2] text-white px-6 py-3 rounded-lg hover:bg-[#1565D8] transition"
             >
               Visiter notre Facebook
             </Link>
 
           </div>
-
         </div>
 
-        {/* Formulaire */}
+        {/* Formulaire général */}
         <div className="bg-white rounded-xl border border-gray-200 p-8 shadow-sm">
 
           <h2 className="font-display text-2xl mb-8">
-            Demander un devis
+            Contactez-nous
           </h2>
 
           <form className="space-y-5">
@@ -97,12 +97,14 @@ export default function ContactPage() {
             <input
               type="text"
               placeholder="Nom complet"
+              required
               className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:border-[#1EA7FF]"
             />
 
             <input
               type="email"
               placeholder="Adresse e-mail"
+              required
               className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:border-[#1EA7FF]"
             />
 
@@ -120,7 +122,8 @@ export default function ContactPage() {
 
             <textarea
               rows={6}
-              placeholder="Décrivez votre projet..."
+              placeholder="Votre message..."
+              required
               className="w-full border rounded-lg px-4 py-3 resize-none focus:outline-none focus:border-[#1EA7FF]"
             />
 
@@ -128,7 +131,7 @@ export default function ContactPage() {
               type="submit"
               className="w-full bg-[#1EA7FF] text-white py-4 rounded-lg font-semibold hover:bg-[#1488d8] transition"
             >
-              Envoyer la demande
+              Envoyer le message
             </button>
 
           </form>
