@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { products } from "@/data/products";
 
-export default function QuotePage() {
+function QuotePageContent() {
   const searchParams = useSearchParams();
   const productSlug = searchParams.get("product");
 
@@ -30,9 +30,7 @@ export default function QuotePage() {
     // Produit sélectionné depuis le catalogue
     formData.set(
       "product",
-      selectedProduct
-        ? selectedProduct.name
-        : "Projet personnalisé"
+      selectedProduct ? selectedProduct.name : "Projet personnalisé"
     );
 
     try {
@@ -41,8 +39,6 @@ export default function QuotePage() {
         body: formData,
       });
 
-      // On récupère d'abord la réponse sous forme de texte
-      // afin d'éviter l'erreur JSON.parse si le serveur renvoie du HTML.
       const responseText = await response.text();
 
       let data;
@@ -56,14 +52,13 @@ export default function QuotePage() {
         );
 
         throw new Error(
-          "Le serveur a renvoyé une réponse inattendue. Vérifiez la route /api/send-quote et redémarrez le serveur."
+          "Le serveur a renvoyé une réponse inattendue. Vérifiez la route /api/send-quote."
         );
       }
 
       if (!response.ok) {
         throw new Error(
-          data?.error ||
-            "Une erreur est survenue lors de l'envoi."
+          data?.error || "Une erreur est survenue lors de l'envoi."
         );
       }
 
@@ -73,7 +68,6 @@ export default function QuotePage() {
       );
 
       form.reset();
-
     } catch (err) {
       console.error("Erreur lors de l'envoi :", err);
 
@@ -81,7 +75,6 @@ export default function QuotePage() {
         err?.message ||
           "Impossible d'envoyer votre demande. Veuillez réessayer."
       );
-
     } finally {
       setSending(false);
     }
@@ -103,7 +96,6 @@ export default function QuotePage() {
         ← Retour
       </Link>
 
-
       {/* HEADER */}
 
       <div className="max-w-3xl mb-12">
@@ -123,7 +115,6 @@ export default function QuotePage() {
         </p>
 
       </div>
-
 
       {/* PRODUIT SÉLECTIONNÉ */}
 
@@ -158,7 +149,6 @@ export default function QuotePage() {
 
       </section>
 
-
       {/* FORMULAIRE */}
 
       <form
@@ -180,7 +170,6 @@ export default function QuotePage() {
           </h2>
 
         </div>
-
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
@@ -206,7 +195,6 @@ export default function QuotePage() {
 
           </div>
 
-
           {/* EMAIL */}
 
           <div>
@@ -229,7 +217,6 @@ export default function QuotePage() {
 
           </div>
 
-
           {/* TÉLÉPHONE */}
 
           <div>
@@ -251,7 +238,6 @@ export default function QuotePage() {
             />
 
           </div>
-
 
           {/* ENTREPRISE */}
 
@@ -276,11 +262,9 @@ export default function QuotePage() {
 
         </div>
 
-
         {/* SÉPARATION */}
 
         <div className="border-t border-[#DCDDDA] my-12" />
-
 
         {/* PROJET */}
 
@@ -296,8 +280,70 @@ export default function QuotePage() {
 
         </div>
 
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          {/* MATÉRIAU */}
+
+          <div>
+
+            <label
+              htmlFor="material"
+              className="block font-mono text-xs text-[#6E7276] mb-2"
+            >
+              MATÉRIAU
+            </label>
+
+            <select
+              id="material"
+              name="material"
+              defaultValue=""
+              className="w-full border border-[#DCDDDA] bg-[#F4F4F2] px-4 py-3 outline-none focus:border-[#1EA7FF] transition"
+            >
+
+              <option value="">
+                Sélectionnez un matériau
+              </option>
+
+              <option value="Acier">
+                Acier
+              </option>
+
+              <option value="Inox">
+                Inox
+              </option>
+
+              <option value="Aluminium">
+                Aluminium
+              </option>
+
+              <option value="Autre">
+                Autre
+              </option>
+
+            </select>
+
+          </div>
+
+          {/* ÉPAISSEUR */}
+
+          <div>
+
+            <label
+              htmlFor="thickness"
+              className="block font-mono text-xs text-[#6E7276] mb-2"
+            >
+              ÉPAISSEUR
+            </label>
+
+            <input
+              id="thickness"
+              type="text"
+              name="thickness"
+              placeholder="Ex. 2 mm"
+              className="w-full border border-[#DCDDDA] bg-[#F4F4F2] px-4 py-3 outline-none focus:border-[#1EA7FF] transition"
+            />
+
+          </div>
 
           {/* QUANTITÉ */}
 
@@ -321,7 +367,6 @@ export default function QuotePage() {
 
           </div>
 
-
           {/* FINITION */}
 
           <div>
@@ -340,7 +385,7 @@ export default function QuotePage() {
               className="w-full border border-[#DCDDDA] bg-[#F4F4F2] px-4 py-3 outline-none focus:border-[#1EA7FF] transition"
             >
 
-              <option value="" disabled>
+              <option value="">
                 Sélectionnez une finition
               </option>
 
@@ -368,7 +413,6 @@ export default function QuotePage() {
 
           </div>
 
-
           {/* DIMENSIONS */}
 
           <div className="md:col-span-2">
@@ -390,21 +434,20 @@ export default function QuotePage() {
 
           </div>
 
-
           {/* DESCRIPTION */}
 
           <div className="md:col-span-2">
 
             <label
-              htmlFor="message"
+              htmlFor="description"
               className="block font-mono text-xs text-[#6E7276] mb-2"
             >
               DESCRIPTION DU BESOIN *
             </label>
 
             <textarea
-              id="message"
-              name="message"
+              id="description"
+              name="description"
               rows={7}
               required
               placeholder="Décrivez votre projet, vos besoins particuliers, les dimensions, la quantité, le type de matériau..."
@@ -415,11 +458,9 @@ export default function QuotePage() {
 
         </div>
 
-
         {/* SÉPARATION */}
 
         <div className="border-t border-[#DCDDDA] my-12" />
-
 
         {/* FICHIER */}
 
@@ -438,9 +479,8 @@ export default function QuotePage() {
             pour nous aider à mieux comprendre votre projet.
           </p>
 
-
           <label
-            htmlFor="attachment"
+            htmlFor="file"
             className="flex flex-col items-center justify-center w-full min-h-36 border border-dashed border-[#BFC2C4] bg-[#F4F4F2] cursor-pointer hover:border-[#1EA7FF] transition p-6 text-center"
           >
 
@@ -457,9 +497,9 @@ export default function QuotePage() {
             </span>
 
             <input
-              id="attachment"
+              id="file"
               type="file"
-              name="attachment"
+              name="file"
               accept="image/*,.pdf,.dwg,.dxf"
               className="hidden"
             />
@@ -468,8 +508,23 @@ export default function QuotePage() {
 
         </div>
 
+        {/* PAS DE PLAN */}
 
-        {/* MESSAGE DE SUCCÈS */}
+        <label className="flex items-center gap-3 mb-8 cursor-pointer">
+
+          <input
+            type="checkbox"
+            name="noPlan"
+            className="w-4 h-4"
+          />
+
+          <span className="text-sm text-[#6E7276]">
+            Je n'ai pas de plan ou de fichier technique.
+          </span>
+
+        </label>
+
+        {/* SUCCESS */}
 
         {success && (
           <div className="mb-6 border border-green-200 bg-green-50 text-green-700 px-5 py-4">
@@ -477,15 +532,13 @@ export default function QuotePage() {
           </div>
         )}
 
-
-        {/* MESSAGE D'ERREUR */}
+        {/* ERROR */}
 
         {error && (
           <div className="mb-6 border border-red-200 bg-red-50 text-red-700 px-5 py-4">
             {error}
           </div>
         )}
-
 
         {/* CTA */}
 
@@ -507,7 +560,6 @@ export default function QuotePage() {
 
           </button>
 
-
           <p className="text-xs text-[#6E7276] mt-4">
             * Champs obligatoires
           </p>
@@ -515,7 +567,6 @@ export default function QuotePage() {
         </div>
 
       </form>
-
 
       {/* BAS DE PAGE */}
 
@@ -535,5 +586,27 @@ export default function QuotePage() {
       </div>
 
     </main>
+  );
+}
+
+/*
+  IMPORTANT :
+  useSearchParams() doit être placé derrière Suspense
+  pour que le build Next.js/Vercel fonctionne correctement.
+*/
+
+export default function QuotePage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="max-w-6xl mx-auto px-6 md:px-8 py-20">
+          <div className="text-[#6E7276]">
+            Chargement...
+          </div>
+        </main>
+      }
+    >
+      <QuotePageContent />
+    </Suspense>
   );
 }
