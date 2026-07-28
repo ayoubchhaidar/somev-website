@@ -20,22 +20,50 @@ export async function POST(request) {
     // =============================
 
     const product = formData.get("product");
+    const material = formData.get("material");
+    const thickness = formData.get("thickness");
     const quantity = formData.get("quantity");
     const finish = formData.get("finish");
     const dimensions = formData.get("dimensions");
-    const message = formData.get("message");
+    const description = formData.get("description");
 
     // =============================
     // FICHIER
     // =============================
 
-    const attachment = formData.get("attachment");
+    const file = formData.get("file");
+
+    // =============================
+    // DEBUG
+    // =============================
+
+    console.log("📩 Données reçues :", {
+      name,
+      email,
+      phone,
+      company,
+      product,
+      material,
+      thickness,
+      quantity,
+      finish,
+      dimensions,
+      description,
+      file: file?.name || "Aucun fichier",
+    });
 
     // =============================
     // VALIDATION
     // =============================
 
-    if (!name || !email || !phone || !message) {
+    if (!name || !email || !phone || !description) {
+      console.log("❌ Champs obligatoires manquants :", {
+        name: !name,
+        email: !email,
+        phone: !phone,
+        description: !description,
+      });
+
       return Response.json(
         {
           error: "Veuillez remplir les champs obligatoires.",
@@ -51,22 +79,22 @@ export async function POST(request) {
     let attachments = [];
 
     if (
-      attachment &&
-      typeof attachment === "object" &&
-      attachment.size > 0
+      file &&
+      typeof file === "object" &&
+      file.size > 0
     ) {
       const buffer = Buffer.from(
-        await attachment.arrayBuffer()
+        await file.arrayBuffer()
       );
 
       attachments.push({
-        filename: attachment.name,
+        filename: file.name,
         content: buffer,
       });
     }
 
     // =============================
-    // EMAIL SOMEV
+    // EMAIL POUR SOMEV
     // =============================
 
     const adminEmail = await resend.emails.send({
@@ -100,18 +128,15 @@ export async function POST(request) {
           <h2>Informations client</h2>
 
           <p>
-            <strong>Nom :</strong>
-            ${name}
+            <strong>Nom :</strong> ${name}
           </p>
 
           <p>
-            <strong>Email :</strong>
-            ${email}
+            <strong>Email :</strong> ${email}
           </p>
 
           <p>
-            <strong>Téléphone :</strong>
-            ${phone}
+            <strong>Téléphone :</strong> ${phone}
           </p>
 
           <p>
@@ -124,6 +149,16 @@ export async function POST(request) {
           <p>
             <strong>Produit :</strong>
             ${product || "Projet personnalisé"}
+          </p>
+
+          <p>
+            <strong>Matériau :</strong>
+            ${material || "Non précisé"}
+          </p>
+
+          <p>
+            <strong>Épaisseur :</strong>
+            ${thickness || "Non précisée"}
           </p>
 
           <p>
@@ -149,16 +184,16 @@ export async function POST(request) {
             border-radius: 8px;
             white-space: pre-wrap;
           ">
-            ${message}
+            ${description}
           </div>
 
           ${
-            attachment && attachment.size > 0
+            file && file.size > 0
               ? `
                 <p style="margin-top: 25px;">
                   📎
                   <strong>Fichier joint :</strong>
-                  ${attachment.name}
+                  ${file.name}
                 </p>
               `
               : `
@@ -178,7 +213,7 @@ export async function POST(request) {
 
     if (adminEmail.error) {
       console.error(
-        "Erreur email SOMEV:",
+        "❌ Erreur email SOMEV:",
         adminEmail.error
       );
 
@@ -196,6 +231,10 @@ export async function POST(request) {
 
     const clientEmail = await resend.emails.send({
       from: "SOMEV <onboarding@resend.dev>",
+
+      // ⚠️ POUR LE MOMENT
+      // Resend Free / Testing autorise uniquement
+      // ton adresse email de test.
       to: ["ayoubchhaidar9@gmail.com"],
 
       subject:
@@ -209,9 +248,7 @@ export async function POST(request) {
           color: #1B1D1E;
         ">
 
-          <h1 style="
-            margin-bottom: 10px;
-          ">
+          <h1>
             Merci pour votre demande.
           </h1>
 
@@ -248,6 +285,11 @@ export async function POST(request) {
             <p>
               <strong>Projet :</strong>
               ${product || "Projet personnalisé"}
+            </p>
+
+            <p>
+              <strong>Matériau :</strong>
+              ${material || "Non précisé"}
             </p>
 
             <p>
@@ -290,7 +332,7 @@ export async function POST(request) {
 
     if (clientEmail.error) {
       console.error(
-        "Erreur email client:",
+        "❌ Erreur email client:",
         clientEmail.error
       );
 
@@ -309,20 +351,18 @@ export async function POST(request) {
 
     return Response.json({
       success: true,
-      message:
-        "Votre demande a bien été envoyée.",
+      message: "Votre demande a bien été envoyée.",
     });
 
   } catch (error) {
     console.error(
-      "Erreur générale:",
+      "❌ Erreur générale:",
       error
     );
 
     return Response.json(
       {
-        error:
-          "Une erreur est survenue lors de l'envoi.",
+        error: "Une erreur est survenue lors de l'envoi.",
       },
       { status: 500 }
     );
